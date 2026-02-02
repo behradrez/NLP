@@ -1,0 +1,100 @@
+The student reads a book.
+A cat sleeps on the couch.
+The device works correctly.
+A car stops at the light.
+The child plays outside.
+A teacher explains the rule.
+The server responds quickly.
+A bird sings loudly.
+The phone rings suddenly.
+A user submits a request.
+The dog follows the owner.
+A program runs smoothly.
+The worker takes a break.
+A message appears on the screen.
+The system detects an error.
+A client signs the form.
+The engineer fixes the bug.
+A student asks a question.
+The camera captures an image.
+A driver parks the car.
+The author writes a story.
+A sensor measures distance.
+The player wins the game.
+A visitor enters the room.
+The robot follows a command.
+A customer makes a purchase.
+The laptop overheats quickly.
+A child draws a picture.
+The application crashes unexpectedly.
+A manager approves the request.
+The doctor examines a patient.
+A speaker delivers a talk.
+The button triggers an action.
+A user forgets a password.
+The artist paints a portrait.
+A server logs an event.
+The student completes the task.
+A driver checks the mirror.
+The computer processes data.
+A teacher grades an exam.
+The phone displays a notification.
+A writer edits a draft.
+The device consumes power.
+A musician plays a note.
+The program outputs a value.
+A client requests support.
+The engineer designs a circuit.
+A reader enjoys the chapter.
+The system boots slowly.
+A child opens a gift.
+The robot avoids an obstacle.
+A developer writes code.
+The server handles traffic.
+A customer leaves feedback.
+The student studies diligently.
+A driver follows a route.
+The application loads slowly.
+A painter chooses a color.
+The device stores information.
+A teacher prepares a lesson.
+The dog chases a ball.
+A user clicks a link.
+The laptop displays an error.
+A visitor asks for help.
+The author publishes a novel.
+A sensor detects motion.
+The student solves a problem.
+A manager schedules a meeting.
+The phone charges overnight.
+A writer finishes a sentence.
+The system saves progress.
+A child rides a bike.
+The robot executes a task.
+A developer debugs code.
+The device vibrates softly.
+A teacher answers a question.
+The player selects a character.
+A driver adjusts the seat.
+The application updates automatically.
+A reader bookmarks a page.
+The server rejects a request.
+A musician tunes an instrument.
+The student submits homework.
+A client receives confirmation.
+The phone records audio.
+A worker finishes a shift.
+The program allocates memory.
+A visitor signs a guestbook.
+The computer executes an instruction.
+A painter frames a canvas.
+The system restores a backup.
+A child eats an apple.
+The robot follows a path.
+A user updates a profile.
+The laptop runs quietly.
+A teacher reviews material.
+The device emits light.
+A driver starts the engine.
+The application shows a dialog.
+A student learns quickly.
