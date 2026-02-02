@@ -131,7 +131,7 @@ def evaluate_model(model, x_test, y_test):
     return (acc, precision, recall, conf_mat)
     
 
-def run_full_pipeline(filenames, feature_extractor):
+def run_full_pipeline(filenames, feature_extractor, metricsFilename):
     corpus, vals = read_data(f'RA1/{filenames[0]}', 0)
     corpus1, vals1 = read_data(f'RA1/{filenames[1]}', 1)
     corpus.extend(corpus1)
@@ -149,10 +149,23 @@ def run_full_pipeline(filenames, feature_extractor):
     logReg_metrics = evaluate_model(logReg, test_feats, Y_test)
     svc_metrics = evaluate_model(svc, test_feats, Y_test)
     
+    write_metrics(logReg_metrics, svc_metrics, metricsFilename)
+
     print("-----Logistic Regression Best Coeffs-----")
     find_strongest_coefficients(logReg, features)
     print("-----Linear SVC Best Coeffs-----")
     find_strongest_coefficients(svc, features)
+
+def write_metrics(logMetrtics, svcMetrics, filename):
+    with open(f"RA1/{filename}", 'w') as f:
+        f.write("Logistic Regression Metrics:\n")
+        for el in logMetrtics:
+            stringContent = str(el).replace('\n',' ')
+            f.write(f"{stringContent};\t")
+        f.write("\nSVC Metrics:\n")
+        for el in svcMetrics:
+            stringContent = str(el).replace('\n',' ')
+            f.write(f"{stringContent};\t")
 
 
 def find_strongest_coefficients(model, features):
@@ -190,5 +203,5 @@ if __name__ == '__main__':
     plural_files = ['morphphon0.txt','morphphon1.txt']
     for file in files:
         clean_files(f"RA1/{file}")
-    run_full_pipeline(sentiment_files, extract_features_sentiment)
-    run_full_pipeline(plural_files, extract_features_plural)
+    run_full_pipeline(sentiment_files, extract_features_sentiment, "SentimentDetection.txt")
+    run_full_pipeline(plural_files, extract_features_plural, "PluralDetection.txt")
