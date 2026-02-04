@@ -98,3 +98,103 @@ The device emits light.
 A driver starts the engine.
 The application shows a dialog.
 A student learns quickly.
+This cat is small.
+A bird sits on a tree.
+My friend has a red car.
+The sun is very hot today.
+That man works at a bank.
+She loves her new book.
+It is a beautiful day.
+This soup tastes good.
+A dog barks at a stranger.
+The teacher explains a lesson.
+My brother plays a game.
+That house has a blue door.
+A flower grows in a garden.
+The baby sleeps in a crib.
+This computer is fast.
+A student writes a paper.
+The phone rings in a room.
+That girl wears a yellow dress.
+My father cooks a meal.
+A fish swims in a lake.
+The clock marks a second.
+This apple is sweet.
+A star shines in a sky.
+The bus stops at a corner.
+My sister draws a picture.
+That mountain is tall.
+A plane flies over a city.
+The water is cold.
+This chair is comfortable.
+A person walks on a path.
+The rain falls on a roof.
+My boss signs a letter.
+That cat drinks some milk.
+A lion hunts a deer.
+The wind blows a leaf.
+This coffee is bitter.
+A child plays with a toy.
+The boat floats on a river.
+My cousin lives in a flat.
+That mirror reflects a face.
+A chef prepares a dish.
+The lamp lights a desk.
+This song is sad.
+A cow eats some grass.
+The train leaves a station.
+My uncle buys a gift.
+That window is open.
+A king rules a land.
+The juice is fresh.
+This cake is delicious.
+A horse runs on a field.
+The music is loud.
+My neighbor has a garden.
+That pen is black.
+A scientist finds a cure.
+The fire burns a log.
+This bed is soft.
+A snake hides in a hole.
+The bread is warm.
+My doctor gives a pill.
+That camera takes a photo.
+A bee lands on a petal.
+The ice melts in a glass.
+This shirt is clean.
+A farmer plants a seed.
+The moon is bright.
+My mother bakes a pie.
+That truck is heavy.
+A writer creates a story.
+The salt is on a table.
+This movie is long.
+A spider spins a web.
+The snow covers a hill.
+My wallet is empty.
+That key opens a lock.
+A pilot lands a jet.
+The tea is hot.
+This box is light.
+A driver starts a motor.
+The egg is in a bowl.
+My aunt sends a card.
+That road is narrow.
+A player hits a ball.
+The soap is pink.
+This watch is expensive.
+A duck swims in a pond.
+The forest is dark.
+My son builds a tower.
+That bag is leather.
+A guest enters a hall.
+The sand is dry.
+This hammer is strong.
+A worker fixes a pipe.
+The cheese is old.
+My dream is big.
+That bell sounds loud.
+A guard protects a gate.
+The oil is thick.
+This gift is for a friend.
+A heart feels a joy.

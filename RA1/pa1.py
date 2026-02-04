@@ -16,8 +16,10 @@ random.seed(42)
 nltk.download('stopwords')
 nltk.download('wordnet')
 
+ROOT_DIR = '/'.join(str(__file__).split('/')[:-1])
+
 LOWERCASE = False
-PUNCTATION_REMOVAL = True
+PUNCTATION_REMOVAL = False
 STOPWORD_REMOVAL = False
 LEMMATIZE = False
 STEMMING = False
@@ -166,8 +168,8 @@ def evaluate_model(model, x_test, y_test):
     
 
 def run_full_pipeline(filenames, feature_extractor, metricsFilename):
-    corpus, vals = read_data(f'RA1/{filenames[0]}', 0)
-    corpus1, vals1 = read_data(f'RA1/{filenames[1]}', 1)
+    corpus, vals = read_data(f'{ROOT_DIR}/{filenames[0]}', 0)
+    corpus1, vals1 = read_data(f'{ROOT_DIR}/{filenames[1]}', 1)
     corpus.extend(corpus1)
     vals.extend(vals1)
 
@@ -191,17 +193,21 @@ def run_full_pipeline(filenames, feature_extractor, metricsFilename):
     find_strongest_coefficients(svc, features)
 
 def write_metrics(logMetrtics, svcMetrics, filename):
-    with open(f"RA1/LogisticRegression_{filename}", 'a+') as f:
+    with open(f"{ROOT_DIR}/LogisticRegression_{filename}", 'a+') as f:
+        f.seek(0)
         if len(f.readlines()) == 0:
             f.write("Accuracy, Precision, Recall, Confusion Matrix\n")
+        f.seek(2)
         for el in logMetrtics:
             stringContent = str(el).replace('\n',' ')
             f.write(f"{stringContent},")
         f.write("\n")
     
-    with open(f"RA1/LinearSVC_{filename}", 'a+') as f:
+    with open(f"{ROOT_DIR}/LinearSVC_{filename}", 'a+') as f:
+        f.seek(0)
         if len(f.readlines()) == 0:
             f.write("Accuracy, Precision, Recall, Confusion Matrix\n")
+        f.seek(2)
         for el in svcMetrics:
             stringContent = str(el).replace('\n',' ')
             f.write(f"{stringContent},")
@@ -229,12 +235,31 @@ def clean_files(filename):
         for line in content:
             if len(line) > 5:
                 f.write(line)
-    
+
+def delete_recordings():
+    import os
+    files = ['LogisticRegression_SentimentDetectionPerformance.csv',
+             'LinearSVC_SentimentDetectionPerformance.csv',
+             'LogisticRegression_PluralDetectionPerformance.csv',
+             'LinearSVC_PluralDetectionPerformance.csv']
+    for file in files:
+        path = f"{ROOT_DIR}/{file}"
+        if os.path.exists(path):
+            os.remove(path)
+
 if __name__ == '__main__':
+    delete_recordings()
     files = ['synsem0.txt','synsem1.txt','morphphon0.txt','morphphon1.txt']
     sentiment_files = ['synsem0.txt','synsem1.txt']
     plural_files = ['morphphon0.txt','morphphon1.txt']
     for file in files:
-        clean_files(f"RA1/{file}")
-    run_full_pipeline(sentiment_files, extract_features_sentiment, "SentimentDetectionPerformance.csv")
-    run_full_pipeline(plural_files, extract_features_plural, "PluralDetectionPerformance.csv")
+        clean_files(f"{ROOT_DIR}/{file}")
+    for config in ['00000','10000','01000','00100','00010','00001', '11111']:
+        LOWERCASE = config[0] == '1'
+        PUNCTATION_REMOVAL = config[1] == '1'
+        STOPWORD_REMOVAL = config[2] == '1'
+        LEMMATIZE = config[3] == '1'
+        STEMMING = config[4] == '1'
+        print(f"Running with config: LOWERCASE={LOWERCASE}, PUNCTATION_REMOVAL={PUNCTATION_REMOVAL}, STOPWORD_REMOVAL={STOPWORD_REMOVAL}, LEMMATIZE={LEMMATIZE}, STEMMING={STEMMING}")
+        run_full_pipeline(sentiment_files, extract_features_sentiment, "SentimentDetectionPerformance.csv")
+        run_full_pipeline(plural_files, extract_features_plural, "PluralDetectionPerformance.csv")

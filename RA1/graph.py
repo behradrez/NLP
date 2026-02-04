@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import csv
+from pathlib import Path
 
 
 def generate_graphs(
@@ -100,31 +102,53 @@ def generate_graphs(
 
 
 # Example usage:
+def _load_metrics_from_csv(csv_path):
+    """Load accuracy, precision, recall lists from a CSV file.
+
+    Expects first row to be a header and subsequent rows to have at least
+    three columns: accuracy, precision, recall. Non-numeric or malformed
+    rows are skipped.
+    """
+    acc = []
+    prec = []
+    rec = []
+    with open(csv_path, newline='') as fh:
+        reader = csv.reader(fh)
+        # skip header if present
+        header = next(reader, None)
+        for row in reader:
+            if not row:
+                continue
+            # try to parse first three columns as floats
+            try:
+                a = float(row[0])
+                p = float(row[1])
+                r = float(row[2])
+            except (ValueError, IndexError):
+                continue
+            acc.append(a)
+            prec.append(p)
+            rec.append(r)
+    return acc, prec, rec
+
+
 if __name__ == "__main__":
-    # Sentiment Detection - LogisticRegression
-    sentiment_lr_accuracy = [0.75, 0.75, 0.75, 0.7, 0.75, 0.75, 0.8]
-    sentiment_lr_precision = [0.6923076923076923, 0.6923076923076923, 0.6923076923076923, 0.6666666666666666, 0.6923076923076923, 0.6923076923076923, 0.7142857142857143]
-    sentiment_lr_recall = [0.9, 0.9, 0.9, 0.8, 0.9, 0.9, 1.0]
-    
-    # Sentiment Detection - LinearSVC
-    sentiment_svc_accuracy = [0.7, 0.7, 0.7, 0.7, 0.7, 0.75, 0.8]
-    sentiment_svc_precision = [0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.6923076923076923, 0.7142857142857143]
-    sentiment_svc_recall = [0.8, 0.8, 0.8, 0.8, 0.8, 0.9, 1.0]
-    
-    # Plural Detection - LogisticRegression
-    plural_lr_accuracy = [0.95, 0.95, 1.0, 0.95, 0.95, 1.0, 0.8]
-    plural_lr_precision = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.7142857142857143]
-    plural_lr_recall = [0.8571428571428571, 0.8571428571428571, 1.0, 0.8571428571428571, 0.8571428571428571, 1.0, 0.7142857142857143]
-    
-    # Plural Detection - LinearSVC
-    plural_svc_accuracy = [0.95, 0.95, 1.0, 0.9, 0.95, 1.0, 0.8]
-    plural_svc_precision = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.6666666666666666]
-    plural_svc_recall = [0.8571428571428571, 0.8571428571428571, 1.0, 0.7142857142857143, 0.8571428571428571, 1.0, 0.8571428571428571]
-    
+    base = Path(__file__).parent
+
+    # Files (expected to be in the same directory as this script)
+    sentiment_lr_fp = base / 'LogisticRegression_SentimentDetectionPerformance.csv'
+    sentiment_svc_fp = base / 'LinearSVC_SentimentDetectionPerformance.csv'
+    plural_lr_fp = base / 'LogisticRegression_PluralDetectionPerformance.csv'
+    plural_svc_fp = base / 'LinearSVC_PluralDetectionPerformance.csv'
+
+    sentiment_lr_accuracy, sentiment_lr_precision, sentiment_lr_recall = _load_metrics_from_csv(sentiment_lr_fp)
+    sentiment_svc_accuracy, sentiment_svc_precision, sentiment_svc_recall = _load_metrics_from_csv(sentiment_svc_fp)
+    plural_lr_accuracy, plural_lr_precision, plural_lr_recall = _load_metrics_from_csv(plural_lr_fp)
+    plural_svc_accuracy, plural_svc_precision, plural_svc_recall = _load_metrics_from_csv(plural_svc_fp)
+
     generate_graphs(
         sentiment_lr_accuracy, sentiment_lr_precision, sentiment_lr_recall,
         sentiment_svc_accuracy, sentiment_svc_precision, sentiment_svc_recall,
         plural_lr_accuracy, plural_lr_precision, plural_lr_recall,
         plural_svc_accuracy, plural_svc_precision, plural_svc_recall,
-
     )
