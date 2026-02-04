@@ -6,19 +6,53 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 import sklearn as sk
 import random
+from nltk.corpus import stopwords
 import nltk
+from nltk.stem import PorterStemmer, WordNetLemmatizer
 
 
 np.random.seed(42)
 random.seed(42)
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+LOWERCASE = False
+PUNCTATION_REMOVAL = True
+STOPWORD_REMOVAL = False
+LEMMATIZE = False
+STEMMING = False
+
 def preprocess_corpus(sentences: list[str]):
+    stemmer = PorterStemmer()
+    lemmatizer = WordNetLemmatizer()
+    stopwords_set = set(stopwords.words('english'))
     processed = []
     for sen in sentences:
-        lower = sen.lower()
+        lower = sen
+        # lowercasing elements
+        if LOWERCASE:
+            lower = sen.lower()
+        
         if len(lower) < 5:
             continue
-        else:
-            processed.append(lower)
+
+        # removal of punctuation
+        if PUNCTATION_REMOVAL:
+            lower = ''.join(char for char in lower if char.isalnum() or char.isspace())
+
+        # removal of stopwords
+        words = lower.split()
+        
+        if STOPWORD_REMOVAL:
+            words = [word for word in words if word not in stopwords_set]
+
+        if LEMMATIZE:
+            words = [lemmatizer.lemmatize(word) for word in words]
+
+        if STEMMING:
+            words = [stemmer.stem(word) for word in words]
+
+        processed.append(' '.join(words))
     return processed
 
 
@@ -27,7 +61,7 @@ def extract_features_sentiment(corpus:list[(str, str)], vectorizer:TfidfTransfor
         vectorizer = TfidfVectorizer(
             ngram_range=(1,2),
             min_df=2,
-            lowercase=True
+            lowercase=LOWERCASE
             )
         
         vec = vectorizer.fit_transform(corpus)
@@ -56,7 +90,7 @@ def extract_features_plural(corpus:list[(str, str)], vectorizer:TfidfTransformer
         vectorizer = TfidfVectorizer(
             ngram_range=(1,3),
             min_df=2,
-            lowercase=True,
+            lowercase=LOWERCASE,
             analyzer='char_wb'
             )
         
@@ -157,17 +191,22 @@ def run_full_pipeline(filenames, feature_extractor, metricsFilename):
     find_strongest_coefficients(svc, features)
 
 def write_metrics(logMetrtics, svcMetrics, filename):
-    with open(f"RA1/{filename}", 'w') as f:
-        f.write("Logistic Regression Metrics:\n")
+    with open(f"RA1/LogisticRegression_{filename}", 'a+') as f:
+        if len(f.readlines()) == 0:
+            f.write("Accuracy, Precision, Recall, Confusion Matrix\n")
         for el in logMetrtics:
             stringContent = str(el).replace('\n',' ')
-            f.write(f"{stringContent};\t")
-        f.write("\nSVC Metrics:\n")
+            f.write(f"{stringContent},")
+        f.write("\n")
+    
+    with open(f"RA1/LinearSVC_{filename}", 'a+') as f:
+        if len(f.readlines()) == 0:
+            f.write("Accuracy, Precision, Recall, Confusion Matrix\n")
         for el in svcMetrics:
             stringContent = str(el).replace('\n',' ')
-            f.write(f"{stringContent};\t")
-
-
+            f.write(f"{stringContent},")
+        f.write("\n")
+    
 def find_strongest_coefficients(model, features):
     coefs = model.coef_[0]
     indices = np.argsort(coefs)
@@ -177,17 +216,11 @@ def find_strongest_coefficients(model, features):
     
     print("Most Negative Features: ")
     for neg in most_neg:
-        if coefs[neg] > 1:
-            print("--Actually Positive--")
         print(f"\t{features[neg]}: {coefs[neg]}")
     
     print("\nMost Positive Features: ")
     for pos in most_pos:
-        if coefs[pos] < 1:
-            print("--Actually Negative--") 
         print(f"\t{features[pos]}: {coefs[pos]}")
-
-
 
 def clean_files(filename):  
     with open(filename, "r") as f:
@@ -203,5 +236,5 @@ if __name__ == '__main__':
     plural_files = ['morphphon0.txt','morphphon1.txt']
     for file in files:
         clean_files(f"RA1/{file}")
-    run_full_pipeline(sentiment_files, extract_features_sentiment, "SentimentDetection.txt")
-    run_full_pipeline(plural_files, extract_features_plural, "PluralDetection.txt")
+    run_full_pipeline(sentiment_files, extract_features_sentiment, "SentimentDetectionPerformance.csv")
+    run_full_pipeline(plural_files, extract_features_plural, "PluralDetectionPerformance.csv")
